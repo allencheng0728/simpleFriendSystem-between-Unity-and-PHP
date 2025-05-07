@@ -130,8 +130,8 @@ class FriendshipManager {
         $this->conn->begin_transaction();
 
         try{
-            $this->deleteFriendship($this->senderID, $this->recieverID);
-            $this->deleteFriendship($this->recieverID, $this->senderID);
+            $this->deleteFriendship($this->senderID, $this->receiverID);
+            $this->deleteFriendship($this->receiverID, $this->senderID);
 
             $this->conn->commit();
         }
@@ -160,7 +160,7 @@ class FriendshipManager {
                     INNER JOIN Friendship ON a.UserID = Friendship.SendID
                     WHERE Friendship.RequestID = ? AND Status = 'pending'
                     ";
-            $param = ["i", $senderID];
+            $param = ["i", $this->senderID];
             $stmt = $this->executeQuery($this->conn, $sql, $param);
         
             $stmt->bind_result($userID, $username, $lastlogin);
